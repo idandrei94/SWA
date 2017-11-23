@@ -132,7 +132,11 @@ class Controller {
         }
     }
 
-    move(x1, y1, x2, y2) {
+    move(x1, y1, x2, y2, source) {
+        if(source !== undefined)
+        {
+            model.addToHistory(" " + String.fromCharCode(97+7-x1) + y1 + String.fromCharCode(97+7-x2) + y2)
+        }
         this.model.pieces = this.model.pieces.map(piece=>piece.move(piece.x, piece.y))
         let currentPiece = this.model.pieces.find(piece=>piece.x == 7-x1 && piece.y == y1)  // Locate the piece
         let destPiece = this.model.pieces.find(piece=>piece.x == 7-x2 && piece.y == y2)     // Check if the destination is occupied
@@ -179,6 +183,20 @@ class Controller {
                 this.model.switchCurrentPlayer()
             return this.model.pieces.map(piece => {return {x:piece.x===-1?-1:7-piece.x, y:piece.y, isCaptured:piece.isCaptured(), src:piece.image}})
         }
+    }
+
+    getServerMove(move_history)
+    {
+        $.post("chess.py",{history: move_history}, function(data, status){
+			move_history = data
+			document.getElementById('text').innerHTML = move_history 
+            console.log(data)
+            x1 = 7-data.charCodeAt(0)-97
+            y1 = Number(data.charAt(1))
+            x2 = 7-data.chatCodeAt(2)-97
+            y2 = Number(data.charAt(3))
+            return move(x1, y1, x2, y2, this)
+        });
     }
 }
 

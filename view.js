@@ -120,9 +120,10 @@ function go(controller) {
 					selectedy = null;
 					selectedid = null;
 				}else{
-					var newBoard = controller.move(selectedx, selectedy, x2, y2); // returns an updated array of all cells	
+					var newBoard = controller.move(selectedx, selectedy, x2, y2, this); // returns an updated array of all cells	
 					//redraw board
 					draw(newBoard);
+					draw(controller.getServerMove())
 					
 				}
 				if(idsArray!==null) 
