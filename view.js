@@ -77,7 +77,7 @@ function go(controller) {
 
 
 	function selectCell(e){
-		if(controller.getStatus() != "Transform" && controller.getStatus() != "Checkmate" && controller.getStatus() != "Draw"){
+		if(controller.getStatus() != "Transform" && controller.getStatus() != "Checkmate" && controller.getStatus() != "Draw" && controller.getCurrentPlayer() === "WHITE"){
 		if(idsArray === null){ //if user doesn't have highlighted cells
 			selectedid = this.id;
 			selectedx = parseInt(selectedid.charAt(0));
@@ -122,9 +122,9 @@ function go(controller) {
 				}else{
 					var newBoard = controller.move(selectedx, selectedy, x2, y2, this); // returns an updated array of all cells	
 					//redraw board
+					console.log(newBoard)
 					draw(newBoard);
-					draw(controller.getServerMove())
-					
+					controller.getServerMove(draw)					
 				}
 				if(idsArray!==null) 
 				{

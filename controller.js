@@ -1,4 +1,3 @@
-//TODO: game status (draw - 50 moves, not enough pieces)
 const GameStatus = {
     NORMAL: "Normal",
     CHECK: "Check",
@@ -119,8 +118,8 @@ class Controller {
 
     getAvailableMoves(x,y) 
     {
-         let piece = this.model.pieces.find(piece=>this.model.getCurrentPlayer() == "WHITE" && piece.x===7-x&&piece.y===y&&piece.colour === this.model.getCurrentPlayer())
-         if(piece === undefined )
+         let piece = this.model.pieces.find(piece=>piece.x===7-x&&piece.y===y&&piece.colour === this.model.getCurrentPlayer())
+		if(piece === undefined )
          {
              return []
          }
@@ -133,11 +132,17 @@ class Controller {
     }
 
     move(x1, y1, x2, y2, source) {
-        if(source !== undefined)
+		if(source !== undefined)
         {
-            model.addToHistory(" " + String.fromCharCode(97+7-x1) + y1 + String.fromCharCode(97+7-x2) + y2)
+			model.addToHistory(" " + String.fromCharCode(97+y1) + (7-x1+1) + String.fromCharCode(97+y2) + (7-x2+1))
+			console.log("Player moved, history: " + this.model.getHistory())
+			console.log("Moving "+(7-x1)+":"+y1+" -> " + (7-x2) + ":" +y2)
         }
-        this.model.pieces = this.model.pieces.map(piece=>piece.move(piece.x, piece.y))
+		else
+		{
+			console.log("Performing internal move")
+		}
+        this.model.pieces = this.model.pieces.map(piece=>piece.move(piece.x, piece.y))      // Mark all pieces as moved (clear en-passant)
         let currentPiece = this.model.pieces.find(piece=>piece.x == 7-x1 && piece.y == y1)  // Locate the piece
         let destPiece = this.model.pieces.find(piece=>piece.x == 7-x2 && piece.y == y2)     // Check if the destination is occupied
                                                                                             // Input validated in view
@@ -185,19 +190,20 @@ class Controller {
         }
     }
 
-    getServerMove(move_history)
+    getServerMove(view)
     {
-        $.post("chess.py",{history: move_history}, function(data, status){
-			move_history = data
-			document.getElementById('text').innerHTML = move_history 
+		console.log("Requesting server move, history: " + this.model.getHistory().trim())
+		console.log("View argument is: ")
+		console.log(view)
+        $.post("chess.py",{history: this.model.getHistory().trim()}, function(data, status){
             console.log(data)
-            x1 = 7-data.charCodeAt(0)-97
-            y1 = Number(data.charAt(1))
-            x2 = 7-data.chatCodeAt(2)-97
-            y2 = Number(data.charAt(3))
-            return move(x1, y1, x2, y2, this)
+            let y1 = (data.charCodeAt(0)-97)
+            let x1 = 7-(Number(data.charAt(1))-1)
+            let y2 = (data.charCodeAt(2)-97)
+            let x2 = 7-(Number(data.charAt(3))-1)
+            console.log(x1 + " " + y1 + " " + x2 + " " + y2)
+			view(controller.move(x1, y1, x2, y2, this))
         });
     }
 }
-
 module.exports = controller;
