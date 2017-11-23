@@ -1,0 +1,56 @@
+table {
+    empty-cells: show;
+	
+}
+
+td {
+    width: 15.855vh;
+    height: 11.5vh;
+    line-height: 5vh;
+    text-align: center;
+    border: 1px solid #000;
+}
+
+tbody tr:nth-child(odd) td:nth-child(even),
+tbody tr:nth-child(even) td:nth-child(odd) {
+    color: #fff;
+    background-color: #CD853F;
+}
+
+tbody tr:nth-child(even) td:nth-child(even),
+tbody tr:nth-child(odd) td:nth-child(odd) {
+    background-color: #FFF8DC;
+}
+
+tbody {
+    counter-reset: rowNumber;
+}
+
+tr {
+    counter-increment: rowNumber;
+    counter-reset: cellNumber;
+}
+
+td {
+    counter-increment: cellNumber;
+}
+
+#chesstable{
+	height:93vh;
+}
+#captured{
+	background-color:#CD853F;
+	height:93vh;
+}
+#captured table{
+	border-collapse:collapse;
+}
+
+#captured table td{
+	border:none;
+   outline:none;
+}
+
+#playerStatus{
+	text-align: center;
+}

@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="styles.css">
+
+	<script src="view.js"></script>
+	<script src="controller.js"></script>
+	<script src="model.js"></script>
+  </head>
+  <body>
+    <div class="row">
+<div class="col-md-3 col-sm-3" >
+	<div class="row">
+	<div class="col-md-4 col-sm-4"></div>
+	<div class="col-md-4 col-sm-4">
+	<button type="button" class="btn btn-default" id="resetButton"><span>Reset game</span></button>
+	</div>
+	<div class="col-md-4 col-sm-4"></div>
+	
+</div>
+</div>
+<div class="col-md-7 col-sm-7" id="playerStatus"></div>
+
+</div>
+<div class="row">
+<div class="col-md-3 col-sm-3" id="captured"></div>
+<div class="col-md-7 col-sm-7" id="chesstable"></div>
+<div class="col-md-2 col-sm-2" >
+	<div class="row">
+		<div class="col-md-12 col-sm-12" style="text-align:center;" id="menuTitle"></div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 col-sm-3"></div>
+		<div class="col-md-6 col-sm-6" id="piecemenu"></div>
+	</div>
+</div>
+</div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+  <script>
+    var model = new Model()
+    var controller = new Controller(model)
+    go(controller)
+  </script>
+</html>
